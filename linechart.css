@@ -1,0 +1,12 @@
+
+.x-axis-path, .y-gridline, .x-notch { fill:none; stroke: #a7a9ac; stroke-width:1; }
+
+.y-gridline { stroke-width: 1; }
+.y-axis-path, .y-axis-path2, .x-notch-left, .x-notch-right { display: none;}
+
+.x-axis-label, .data-point-label {font-size: 12px; font-weight:normal; font-family: sans-serif; fill: #58595b; text-anchor:middle;}
+.y-axis-label {font-size: 12px; font-family: helvetica; fill: #a7a9ac; text-anchor:end;}
+
+.series-1-line { fill: none; stroke: #bf5004; stroke-width:2; }
+
+.series-2-line { fill: none; stroke: #336699; stroke-width: 2;}
