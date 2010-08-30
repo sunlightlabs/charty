@@ -2,6 +2,7 @@
 import xml.etree.ElementTree as ET
 from xml.dom.minidom import parseString
 import math
+from nice import nice_ticks
 
 CURRENCY = [( 10**3, 'Th'), (10**6, 'M'), (10**9, 'B'), (10**12, 'Tr')]
 
@@ -43,6 +44,17 @@ class Chart(object):
         for x in stylesheet.readlines():
             temp.append(x)
         self.svg.append(ET.XML('<style type="text/css">' + "\n".join(temp)  + '</style>'))
+
+    def find_y_minimum(self):
+        min_y_value = None
+
+        for series in self.data:
+            #Because series are incrementally numbered, we allow for a place holder to keep styles consistent
+            if series != 'placeholder':
+                for point in series:
+                    if not min_y_value or (not isinstance(point[1], "".__class__) and point[1] < min_y_value): min_y_value = point[1]
+
+        return min_y_value
 
     def find_y_maximum(self):
         """
@@ -218,23 +230,20 @@ class GridChart(Chart):
         self.grid_width = self.grid_x2_position - self.grid_x1_position
 
         #where and how often for gridlines
-        self.max_y_value =  self.find_y_maximum()        
+        self.max_y_value =  self.find_y_maximum()      
+        if hasattr(self, 'use_zero_minimum') and self.use_zero_minimum:
+            self.min_y_value = 0
+        else:
+            self.min_y_value = self.find_y_minimum()
+
         self.max_x_value = max(self.labels)
         self.max_data_points = len(self.labels)
-        if not hasattr(self, 'max_y_axis_value'):
-            self.max_y_axis_value = self.max_y_value + (self.max_y_value * .1)
+        if not hasattr(self, 'gridlines'):
+            self.gridlines = 5
         
+        self.min_y_axis_value, self.max_y_axis_value, self.gridline_values = nice_ticks(self.min_y_value, self.max_y_value, self.gridlines)
         self.y_scale = self.grid_height / float(self.max_y_axis_value)
         
-        if not hasattr(self, 'y_axis_interval'):
-            if not hasattr(self, 'gridlines'):
-                self.gridlines = 7 #int(self.grid_height / ( self.gridline_percent * self.grid_height))
-                self.y_axis_interval = self.max_y_axis_value / self.gridlines
-            else:
-                self.y_axis_interval = self.max_y_axis_value / self.gridlines
-        else:
-            self.gridlines = int(self.max_y_axis_value / self.y_axis_interval)
-
 
     def setup_chart(self):
 
@@ -268,23 +277,25 @@ class GridChart(Chart):
         y_axis.append(y_axis_path2)
 
         grid_space = self.grid_height / self.gridlines
-        grid_value_increment = self.y_axis_interval
+        grid_value_increment = self.max_y_axis_value / self.gridlines
          
-        for i in range(0, self.gridlines):
+        count = 0
+        for label in self.gridline_values:
             #draw the gridline
-            gridline = ET.Element("path", d="M %d %d L %d %d" % (0, (i * grid_space), self.grid_width, (i * grid_space)))
+            gridline = ET.Element("path", d="M %d %d L %d %d" % (0, (count * grid_space), self.grid_width, (count * grid_space)))
             gridline.attrib['class'] = 'y-gridline'
             y_axis.append(gridline)
 
             #draw the text label
-            gridline_label = ET.Element("text", x="%s" % (-self.y_label_padding), y="%s" % ( (i * grid_space) ) )
-            num = self.max_y_axis_value - (i * grid_value_increment)
-            text = "%s" % int(num)
-            text = self.convert_units(int(num))
+            gridline_label = ET.Element("text", x="%s" % (-self.y_label_padding), y="%s" % ( self.grid_height - (count * grid_space) ) )
+            #um = self.max_y_axis_value - (count * grid_value_increment)
+            text = "%s" % label
+            text = self.convert_units(label)
 
             gridline_label.text = text
             gridline_label.attrib['class'] = 'y-axis-label'
             y_axis.append(gridline_label)
+            count += 1
 
         self.grid.append(x_axis)
         self.grid.append(y_axis)
@@ -411,8 +422,6 @@ class Column(GridChart):
         
         #width of each data point grouping over multiple series
         self.x_group_scale = self.x_scale * self.number_of_series
-        print "x scale %s " % self.x_scale
-        print "group scale %s" % self.x_group_scale
         self.setup_chart()
 
         #Chart subclass should have this method to chart the data series
@@ -424,10 +433,6 @@ class Column(GridChart):
     def set_scale(self):
         
         scale = (self.grid_width / self.max_data_points / self.number_of_series)# - self.x_padding
-        print self.grid_width
-        print self.max_data_points
-        print self.number_of_series
-        print self.labels
         if self.max_x_point_width < scale:
             #need to adjust white space padding
             self.x_padding = (self.grid_width - (self.number_of_series * self.max_data_points * self.max_x_point_width)) / (self.max_data_points)
