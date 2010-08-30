@@ -31,6 +31,7 @@ class Chart(object):
         self.y_padding = 0
         self.currency = False
         self.units = ''
+
  
         #create svg node as root element in tree
         self.svg = ET.Element('svg', xmlns="http://www.w3.org/2000/svg", version="1.1", height=str(self.height), width=str(self.width) )
@@ -196,7 +197,7 @@ class GridChart(Chart):
     """Subclass of Chart, containing functions relevant to all charts that use a grid"""
     def __init__(self, height, width, data, stylesheet=None, *args, **kwargs):
 
-        self.gridline_percent = .15
+        self.gridline_percent = .10
         self.x_label_height = 15  #insert a check for multi line labels on x axis
         self.x_label_padding = 15
         self.y_label_padding = 5
@@ -220,10 +221,20 @@ class GridChart(Chart):
         self.max_y_value =  self.find_y_maximum()        
         self.max_x_value = max(self.labels)
         self.max_data_points = len(self.labels)
-        self.gridline_interval = self.gridline_percent * self.grid_height #in pixels
-        self.gridlines = int(self.grid_height / self.gridline_interval)
-        self.max_y_axis_value = self.max_y_value + (self.max_y_value * .1)
+        if not hasattr(self, 'max_y_axis_value'):
+            self.max_y_axis_value = self.max_y_value + (self.max_y_value * .1)
+        
         self.y_scale = self.grid_height / float(self.max_y_axis_value)
+        
+        if not hasattr(self, 'y_axis_interval'):
+            if not hasattr(self, 'gridlines'):
+                self.gridlines = 7 #int(self.grid_height / ( self.gridline_percent * self.grid_height))
+                self.y_axis_interval = self.max_y_axis_value / self.gridlines
+            else:
+                self.y_axis_interval = self.max_y_axis_value / self.gridlines
+        else:
+            self.gridlines = int(self.max_y_axis_value / self.y_axis_interval)
+
 
     def setup_chart(self):
 
@@ -257,7 +268,7 @@ class GridChart(Chart):
         y_axis.append(y_axis_path2)
 
         grid_space = self.grid_height / self.gridlines
-        grid_value_increment = self.max_y_axis_value / self.gridlines
+        grid_value_increment = self.y_axis_interval
          
         for i in range(0, self.gridlines):
             #draw the gridline
@@ -299,7 +310,7 @@ class GridChart(Chart):
         for unit in reversed(CURRENCY):
             if value / float(unit[0]) >= 1:
                 #print value / float(unit[0])
-                text = text + "%.1f" % (value / float(unit[0]))
+                text = text + "%d" % (value / float(unit[0]))
                 if self.units:
                     text = text + unit[1]
                 return text
