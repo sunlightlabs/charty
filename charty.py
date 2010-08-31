@@ -2,7 +2,7 @@
 import xml.etree.ElementTree as ET
 from xml.dom.minidom import parseString
 import math
-from nice import nice_ticks
+from nice import nice_ticks_seq
 
 CURRENCY = [( 10**3, 'Th'), (10**6, 'M'), (10**9, 'B'), (10**12, 'Tr')]
 
@@ -241,8 +241,15 @@ class GridChart(Chart):
         if not hasattr(self, 'gridlines'):
             self.gridlines = 5
         
-        self.min_y_axis_value, self.max_y_axis_value, self.gridline_values = nice_ticks(self.min_y_value, self.max_y_value, self.gridlines)
+        print self.min_y_value
+        print self.max_y_value 
+        self.gridline_values = nice_ticks_seq(self.min_y_value, self.max_y_value, self.gridlines, False)
+        print self.gridline_values
+        self.gridlines = len(self.gridline_values) - 1
+        self.min_y_axis_value = min(self.gridline_values)
+        self.max_y_axis_value = max(self.gridline_values)
         self.y_scale = self.grid_height / float(self.max_y_axis_value)
+        self.y_display_unit = self.get_display_unit()
         
 
     def setup_chart(self):
@@ -282,7 +289,7 @@ class GridChart(Chart):
         count = 0
         for label in self.gridline_values:
             #draw the gridline
-            gridline = ET.Element("path", d="M %d %d L %d %d" % (0, (count * grid_space), self.grid_width, (count * grid_space)))
+            gridline = ET.Element("path", d="M %d %d L %d %d" % (0, (self.grid_height - count * grid_space), self.grid_width, (self.grid_height - count * grid_space)))
             gridline.attrib['class'] = 'y-gridline'
             y_axis.append(gridline)
 
@@ -314,20 +321,40 @@ class GridChart(Chart):
         dp_label.attrib['class'] = 'data-point-label'
         self.grid.append(dp_label)
 
+    def get_display_unit(self):
+#need to change this to be for tick marks, not actual data points
+        if self.min_y_axis_value != 0:
+            print self.min_y_axis_value
+            return self.match_unit(self.min_y_axis_value)
+        else:
+            return self.match_unit(self.gridline_values[1])
+
+            min_unit = (1000000000000, 'Tr')
+            for series in self.data:
+                if series != 'placeholder':
+                    for point in series:
+                        temp_unit = self.match_unit(point[1])
+                        if temp_unit[0] < min_unit[0]:
+                            min_unit = temp_unit
+                            break
+
+            return min_unit
+
+    def match_unit(self, value):
+        for unit in reversed(CURRENCY):
+            if value / float(unit[0]) >= 1:
+                return unit
+
+        return (1, '')
+                    
     def convert_units(self, value):
         text = ""
         if self.currency:
             text = "$"
-        for unit in reversed(CURRENCY):
-            if value / float(unit[0]) >= 1:
-                #print value / float(unit[0])
-                text = text + "%d" % (value / float(unit[0]))
-                if self.units:
-                    text = text + unit[1]
-                return text
-                break
-
-        return str(value)
+        text = text + "%2g" % round (value / self.y_display_unit[0], 2)
+        if self.units:
+            text = text + self.y_display_unit[1]
+        return text
 
 class Line(GridChart):
 
