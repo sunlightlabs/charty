@@ -1,0 +1,98 @@
+<?xml version="1.0" ?>
+<svg height="400" version="1.1" width="400" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">
+	<style type="text/css">
+		.slice-10 { fill: #385a2a; stroke: #d6d9db; stroke-width:2;}
+
+.slice-9 { fill: #66903d; stroke: #d6d9db; stroke-width:2;}
+
+.slice-8 { fill: #c1d69f; stroke: #d6d9db; stroke-width:2;}
+
+.slice-7 { fill: #79bcab; stroke: #d6d9db; stroke-width:2;}
+
+.slice-6 { fill: #c2e0d5; stroke: #d6d9db; stroke-width:2;}
+
+.slice-5 { fill: #e9ece3; stroke: #d6d9db; stroke-width:2; }
+
+.slice-4 { fill: #bad9e0; stroke: #d6d9db; stroke-width:2;}
+
+.slice-3 { fill: #669eb3; stroke: #d6d9db; stroke-width:2;}
+
+.slice-2 { fill: #2b5b8e; stroke: #d6d9db; stroke-width:2;}
+
+.slice-1{ fill: #072744; stroke: #d6d9db; stroke-width:2;}
+
+
+
+.pie-label-right {font-family: sans-serif; font-size: 12px; font-weight: bold; fill: #58595b; text-anchor:start;}
+
+.pie-label-left {font-family:sans-serif; font-size: 12px; font-weight: bold; fill: #58595b; text-anchor:end;}
+
+
+
+
+
+
+
+	</style>
+	<rect fill="white" height="400" width="400" x="0" y="0"/>
+	<text class="pie-label-right" x="304" y="170">
+		<tspan dy="0" x="304.797189781">
+			6.7% - 2000
+		</tspan>
+	</text>
+	<path class="slice-1" d="M 200,200  l 100,0  a100,100 0 0,0 -8.71419341793,-40.8277052583 z"/>
+	<text class="pie-label-right" x="263" y="108">
+		<tspan dy="0" x="263.301060241">
+			17.6% - 2001
+		</tspan>
+	</text>
+	<path class="slice-2" d="M 200,200  l 91.2858065821,-40.8277052583  a100,100 0 0,0 -86.7056352512,-59.0673498274 z"/>
+	<text class="pie-label-left" x="133" y="110">
+		<tspan dy="0" x="133.43865225">
+			21.8% - 2002
+		</tspan>
+	</text>
+	<path class="slice-3" d="M 200,200  l 4.58017133085,-99.8950550857  a100,100 0 0,0 -101.498069936,75.2592898256 z"/>
+	<text class="pie-label-left" x="93" y="197">
+		<tspan dy="0" x="93.0620093726">
+			6.8% - 2003
+		</tspan>
+	</text>
+	<path class="slice-4" d="M 200,200  l -96.9178986052,-24.6357652601  a100,100 0 0,0 -1.49349776925,42.3895553802 z"/>
+	<text class="pie-label-left" x="99" y="244">
+		<tspan dy="0" x="99.043738559">
+			5.4% - 2004
+		</tspan>
+	</text>
+	<path class="slice-5" d="M 200,200  l -98.4113963745,17.7537901201  a100,100 0 0,0 11.6497329833,31.9695823078 z"/>
+	<text class="pie-label-left" x="118" y="276">
+		<tspan dy="0" x="118.18730862">
+			6.5% - 2005
+		</tspan>
+	</text>
+	<path class="slice-6" d="M 200,200  l -86.7616633911,49.7233724279  a100,100 0 0,0 27.0356467468,30.4813838886 z"/>
+	<text class="pie-label-left" x="144" y="297">
+		<tspan dy="0" x="144.767114053">
+			4.4% - 2006
+		</tspan>
+	</text>
+	<path class="slice-7" d="M 200,200  l -59.7260166443,80.2047563166  a100,100 0 0,0 23.8870936122,13.1524694129 z"/>
+	<text class="pie-label-left" x="158" y="303">
+		<tspan dy="0" x="158.76228781">
+			0.5% - 2007
+		</tspan>
+	</text>
+	<path class="slice-8" d="M 200,200  l -35.8389230322,93.3572257294  a100,100 0 0,0 3.21242840802,1.17061063924 z"/>
+	<text class="pie-label-right" x="206" y="309">
+		<tspan dy="0" x="206.628451463">
+			12.7% - 22
+		</tspan>
+	</text>
+	<path class="slice-9" d="M 200,200  l -32.6264946241,94.5278363687  a100,100 0 0,0 77.470195158,-5.14639241954 z"/>
+	<text class="pie-label-right" x="292" y="262">
+		<tspan dy="0" x="292.101028353">
+			17.6% - 30
+		</tspan>
+	</text>
+	<path class="slice-10" d="M 200,200  l 44.8437005338,89.3814439491  a100,100 0 0,0 55.1562994662,-89.3814439491 z"/>
+</svg>

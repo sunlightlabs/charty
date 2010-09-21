@@ -1,0 +1,86 @@
+<?xml version="1.0" ?>
+<svg height="185" version="1.1" width="370" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">
+	<style type="text/css">
+		/*.y-axis-path, .y-axis-path2, .y-gridline {display:none;}*/
+
+.x-axis-path, .y-gridline, .x-notch,.y-axis-path, .y-axis-path2, .x-notch-left, .x-notch-right { fill:none; stroke: #a7a9ac; stroke-width:1; }
+
+
+
+.x-notch, .x-notch-left, .x-notch-right { stroke: #a7a9ac; }
+
+.x-axis-path { fill:none; stroke: #a7a9ac; stroke-width:1; stroke-linecap:butt; stroke-linejoin: miter; stroke-miterlimit:4; stroke-dasharray:none; stroke-opacity:1 }
+
+.series-0-point { stroke: #e0d1d1; fill: #bf5004; stroke-width: 2px; }
+
+
+
+.series-1-point { stroke: #d6d9db; fill: #336699; stroke-width:2px; }
+
+
+
+.series-2-point { stroke: #eff5e6; fill: #9ca991; stroke-width: 2px; }
+
+
+
+
+
+.value-as-label { font-size: 11px; font-family: sans-serif; fill: #58596b;}
+
+.x-axis-label, .data-point-label {font-size: 12px; font-weight:bold; font-family: sans-serif; fill: #58595b; text-anchor:middle;}
+
+.y-axis-label {font-size: 12px; font-family: helvetica; fill: #a7a9ac; text-anchor:end;}
+
+
+
+/*.y-axis-label { display:none;}*/
+
+	</style>
+	<rect fill="white" height="185" width="370" x="0" y="0"/>
+	<g id="grid" transform="translate(10, 10)">
+		<g class="x-axis" id="x_axis">
+			<path class="x-axis-path" d="M 0 150 L 350 150"/>
+			<path class="x-notch-left" d="M 0 150, L 0 160"/>
+			<path class="x-notch-right" d="M 350 150, L 350 160"/>
+		</g>
+		<g class="y-axis" id="y_axis">
+			<path class="y-axis-path" d="M 0 150 L 0 0"/>
+			<path class="y-axis-path-2" d="M 350 150 L 350 0"/>
+			<path class="y-gridline" d="M 0 150 L 350 150"/>
+			<text class="y-axis-label" x="-5" y="150">
+				$ 0
+			</text>
+			<path class="y-gridline" d="M 0 113 L 350 113"/>
+			<text class="y-axis-label" x="-5" y="113">
+				$ 2
+			</text>
+			<path class="y-gridline" d="M 0 76 L 350 76"/>
+			<text class="y-axis-label" x="-5" y="76">
+				$ 4
+			</text>
+			<path class="y-gridline" d="M 0 39 L 350 39"/>
+			<text class="y-axis-label" x="-5" y="39">
+				$ 6
+			</text>
+			<path class="y-gridline" d="M 0 2 L 350 2"/>
+			<text class="y-axis-label" x="-5" y="2">
+				$ 8
+			</text>
+		</g>
+		<path class="x-notch" d="M 174 150 L 174 155"/>
+		<rect class="series-0-point" height="139.612193981" width="60" x="57" y="10.3878060188"/>
+		<text class="data-point-label" x="87" y="5.38780601875">
+			$ 7
+		</text>
+		<rect class="series-0-point" height="2.14014845625" width="60" x="232" y="147.859851544"/>
+		<text class="data-point-label" x="262" y="142.859851544">
+			$ 0
+		</text>
+		<text class="x-axis-label" x="87" y="165">
+			Outstanding Credit
+		</text>
+		<text class="x-axis-label" x="262" y="165">
+			Subsidy
+		</text>
+	</g>
+</svg>

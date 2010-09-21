@@ -1,0 +1,117 @@
+<?xml version="1.0" ?>
+<svg height="300" version="1.1" width="600" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">
+	<style type="text/css">
+		/*.y-axis-path, .y-axis-path2, .y-gridline {display:none;}*/
+
+.x-axis-path, .y-gridline, .x-notch,.y-axis-path, .y-axis-path2, .x-notch-left, .x-notch-right { fill:none; stroke: #a7a9ac; stroke-width:1; }
+
+
+
+.x-notch, .x-notch-left, .x-notch-right { stroke: #a7a9ac; }
+
+.x-axis-path { fill:none; stroke: #a7a9ac; stroke-width:1; stroke-linecap:butt; stroke-linejoin: miter; stroke-miterlimit:4; stroke-dasharray:none; stroke-opacity:1 }
+
+.series-0-point { stroke: #e0d1d1; fill: #bf5004; stroke-width: 2px; }
+
+
+
+.series-1-point { stroke: #d6d9db; fill: #336699; stroke-width:2px; }
+
+
+
+.series-2-point { stroke: #eff5e6; fill: #9ca991; stroke-width: 2px; }
+
+
+
+
+
+.value-as-label { font-size: 11px; font-family: sans-serif; fill: #58596b;}
+
+.x-axis-label, .data-point-label {font-size: 12px; font-weight:bold; font-family: sans-serif; fill: #58595b; text-anchor:middle;}
+
+.y-axis-label {font-size: 12px; font-family: helvetica; fill: #a7a9ac; text-anchor:end;}
+
+
+
+/*.y-axis-label { display:none;}*/
+
+	</style>
+	<rect fill="white" height="300" width="600" x="0" y="0"/>
+	<g id="grid" transform="translate(30, 30)">
+		<g class="x-axis" id="x_axis">
+			<path class="x-axis-path" d="M 0 195 L 540 195"/>
+			<path class="x-notch-left" d="M 0 195, L 0 205"/>
+			<path class="x-notch-right" d="M 540 195, L 540 205"/>
+		</g>
+		<g class="y-axis" id="y_axis">
+			<path class="y-axis-path" d="M 0 195 L 0 0"/>
+			<path class="y-axis-path-2" d="M 540 195 L 540 0"/>
+			<path class="y-gridline" d="M 0 195 L 540 195"/>
+			<text class="y-axis-label" x="-5" y="195">
+				200
+			</text>
+			<path class="y-gridline" d="M 0 163 L 540 163"/>
+			<text class="y-axis-label" x="-5" y="163">
+				300
+			</text>
+			<path class="y-gridline" d="M 0 131 L 540 131"/>
+			<text class="y-axis-label" x="-5" y="131">
+				400
+			</text>
+			<path class="y-gridline" d="M 0 99 L 540 99"/>
+			<text class="y-axis-label" x="-5" y="99">
+				500
+			</text>
+			<path class="y-gridline" d="M 0 67 L 540 67"/>
+			<text class="y-axis-label" x="-5" y="67">
+				600
+			</text>
+			<path class="y-gridline" d="M 0 35 L 540 35"/>
+			<text class="y-axis-label" x="-5" y="35">
+				700
+			</text>
+			<path class="y-gridline" d="M 0 3 L 540 3"/>
+			<text class="y-axis-label" x="-5" y="3">
+				800
+			</text>
+		</g>
+		<text class="value-as-label" x="30" y="65.0">
+			<tspan x="30" y="153">
+				Subsidy
+			</tspan>
+			<tspan x="30" y="167">
+				Spending
+			</tspan>
+			<tspan x="30" y="181">
+				Unknown
+			</tspan>
+		</text>
+		<rect class="series-0-point" height="195.0" width="60" x="210" y="0.0"/>
+		<text class="data-point-label" x="240" y="-5.0">
+			800
+		</text>
+		<path class="x-notch" d="M 180 195 L 180 200"/>
+		<rect class="series-1-point" height="9.75" width="60" x="90" y="185.25"/>
+		<text class="data-point-label" x="120" y="180.25">
+			230
+		</text>
+		<path class="x-notch" d="M 360 195 L 360 200"/>
+		<rect class="series-1-point" height="19.5" width="60" x="270" y="175.5"/>
+		<text class="data-point-label" x="300" y="170.5">
+			260
+		</text>
+		<rect class="series-1-point" height="32.5" width="60" x="450" y="162.5"/>
+		<text class="data-point-label" x="480" y="157.5">
+			300
+		</text>
+		<text class="x-axis-label" style="text-anchor: end;" transform="rotate(-45, 90, 210)" x="90" y="210">
+			aaaaaaaaaa
+		</text>
+		<text class="x-axis-label" style="text-anchor: end;" transform="rotate(-45, 270, 210)" x="270" y="210">
+			bbbbbbbbbb
+		</text>
+		<text class="x-axis-label" style="text-anchor: end;" transform="rotate(-45, 450, 210)" x="450" y="210">
+			cccc
+		</text>
+	</g>
+</svg>

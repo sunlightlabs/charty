@@ -1,0 +1,146 @@
+<?xml version="1.0" ?>
+<svg height="300" version="1.1" width="600" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">
+	<style type="text/css">
+		/*.y-axis-path, .y-axis-path2, .y-gridline {display:none;}*/
+
+.x-axis-path, .y-gridline, .x-notch,.y-axis-path, .y-axis-path2, .x-notch-left, .x-notch-right { fill:none; stroke: #a7a9ac; stroke-width:1; }
+
+
+
+.x-notch, .x-notch-left, .x-notch-right { stroke: #a7a9ac; }
+
+.x-axis-path { fill:none; stroke: #a7a9ac; stroke-width:1; stroke-linecap:butt; stroke-linejoin: miter; stroke-miterlimit:4; stroke-dasharray:none; stroke-opacity:1 }
+
+.series-0-point { stroke: #e0d1d1; fill: #bf5004; stroke-width: 2px; }
+
+
+
+.series-1-point { stroke: #d6d9db; fill: #336699; stroke-width:2px; }
+
+
+
+.series-2-point { stroke: #eff5e6; fill: #9ca991; stroke-width: 2px; }
+
+
+
+
+
+.value-as-label { font-size: 11px; font-family: sans-serif; fill: #58596b;}
+
+.x-axis-label, .data-point-label {font-size: 12px; font-weight:bold; font-family: sans-serif; fill: #58595b; text-anchor:middle;}
+
+.y-axis-label {font-size: 12px; font-family: helvetica; fill: #a7a9ac; text-anchor:end;}
+
+
+
+/*.y-axis-label { display:none;}*/
+
+	</style>
+	<rect fill="white" height="300" width="600" x="0" y="0"/>
+	<g id="grid" transform="translate(45, 30)">
+		<g class="x-axis" id="x_axis">
+			<path class="x-axis-path" d="M 0 225 L 510 225"/>
+			<path class="x-notch-left" d="M 0 225, L 0 235"/>
+			<path class="x-notch-right" d="M 510 225, L 510 235"/>
+		</g>
+		<g class="y-axis" id="y_axis">
+			<path class="y-axis-path" d="M 0 225 L 0 0"/>
+			<path class="y-axis-path-2" d="M 510 225 L 510 0"/>
+			<path class="y-gridline" d="M 0 225 L 510 225"/>
+			<text class="y-axis-label" x="-5" y="225">
+				10
+			</text>
+			<path class="y-gridline" d="M 0 169 L 510 169"/>
+			<text class="y-axis-label" x="-5" y="169">
+				20
+			</text>
+			<path class="y-gridline" d="M 0 113 L 510 113"/>
+			<text class="y-axis-label" x="-5" y="113">
+				30
+			</text>
+			<path class="y-gridline" d="M 0 57 L 510 57"/>
+			<text class="y-axis-label" x="-5" y="57">
+				40
+			</text>
+			<path class="y-gridline" d="M 0 1 L 510 1"/>
+			<text class="y-axis-label" x="-5" y="1">
+				50
+			</text>
+		</g>
+		<rect class="series-0-point" height="0.0" width="17" x="497" y="225.0"/>
+		<text class="data-point-label" x="505" y="220.0">
+			10
+		</text>
+		<rect class="series-0-point" height="112.5" width="17" x="546" y="112.5"/>
+		<text class="data-point-label" x="554" y="107.5">
+			30
+		</text>
+		<rect class="series-0-point" height="168.75" width="17" x="595" y="56.25"/>
+		<text class="data-point-label" x="603" y="51.25">
+			40
+		</text>
+		<rect class="series-0-point" height="225.0" width="17" x="644" y="0.0"/>
+		<text class="data-point-label" x="652" y="-5.0">
+			50
+		</text>
+		<path class="x-notch" d="M 48 225 L 48 230"/>
+		<rect class="series-1-point" height="112.5" width="17" x="24" y="112.5"/>
+		<text class="data-point-label" x="32" y="107.5">
+			30
+		</text>
+		<path class="x-notch" d="M 146 225 L 146 230"/>
+		<rect class="series-1-point" height="168.75" width="17" x="122" y="56.25"/>
+		<text class="data-point-label" x="130" y="51.25">
+			40
+		</text>
+		<rect class="series-1-point" height="225.0" width="17" x="710" y="0.0"/>
+		<text class="data-point-label" x="718" y="-5.0">
+			50
+		</text>
+		<text class="x-axis-label" x="24" y="240">
+			1990
+		</text>
+		<text class="x-axis-label" x="73" y="240">
+			1991
+		</text>
+		<text class="x-axis-label" x="122" y="240">
+			1992
+		</text>
+		<text class="x-axis-label" x="171" y="240">
+			1993
+		</text>
+		<text class="x-axis-label" x="220" y="240">
+			1994
+		</text>
+		<text class="x-axis-label" x="269" y="240">
+			1995
+		</text>
+		<text class="x-axis-label" x="318" y="240">
+			1996
+		</text>
+		<text class="x-axis-label" x="367" y="240">
+			1997
+		</text>
+		<text class="x-axis-label" x="416" y="240">
+			1998
+		</text>
+		<text class="x-axis-label" x="465" y="240">
+			1999
+		</text>
+		<text class="x-axis-label" x="514" y="240">
+			2000
+		</text>
+		<text class="x-axis-label" x="563" y="240">
+			2001
+		</text>
+		<text class="x-axis-label" x="612" y="240">
+			2002
+		</text>
+		<text class="x-axis-label" x="661" y="240">
+			2003
+		</text>
+		<text class="x-axis-label" x="710" y="240">
+			2004
+		</text>
+	</g>
+</svg>

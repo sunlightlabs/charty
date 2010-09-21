@@ -1,0 +1,17 @@
+/*.y-axis-path, .y-axis-path2, .y-gridline {display:none;}*/
+.x-axis-path, .y-gridline, .x-notch,.y-axis-path, .y-axis-path2, .x-notch-left, .x-notch-right { fill:none; stroke: #a7a9ac; stroke-width:1; }
+
+.x-notch, .x-notch-left, .x-notch-right { stroke: #a7a9ac; }
+.x-axis-path { fill:none; stroke: #a7a9ac; stroke-width:1; stroke-linecap:butt; stroke-linejoin: miter; stroke-miterlimit:4; stroke-dasharray:none; stroke-opacity:1 }
+.series-0-point { stroke: #e0d1d1; fill: #bf5004; stroke-width: 2px; }
+
+.series-1-point { stroke: #d6d9db; fill: #336699; stroke-width:2px; }
+
+.series-2-point { stroke: #eff5e6; fill: #9ca991; stroke-width: 2px; }
+
+
+.value-as-label { font-size: 11px; font-family: sans-serif; fill: #58596b;}
+.x-axis-label, .data-point-label {font-size: 12px; font-weight:bold; font-family: sans-serif; fill: #58595b; text-anchor:middle;}
+.y-axis-label {font-size: 12px; font-family: helvetica; fill: #a7a9ac; text-anchor:end;}
+
+/*.y-axis-label { display:none;}*/
