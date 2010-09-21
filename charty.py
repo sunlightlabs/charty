@@ -241,14 +241,13 @@ class GridChart(Chart):
         if not hasattr(self, 'gridlines'):
             self.gridlines = 5
         
-        print self.min_y_value
-        print self.max_y_value 
         self.gridline_values = nice_ticks_seq(self.min_y_value, self.max_y_value, self.gridlines, False)
-        print self.gridline_values
         self.gridlines = len(self.gridline_values) - 1
         self.min_y_axis_value = min(self.gridline_values)
         self.max_y_axis_value = max(self.gridline_values)
-        self.y_scale = self.grid_height / float(self.max_y_axis_value)
+        self.y_scale = self.grid_height / float(self.max_y_axis_value - self.min_y_axis_value) #HERE
+        print "min y axis: %s , max_y axis: %s " % ( self.min_y_axis_value, self.max_y_axis_value )
+        print "y scale: %s" % self.y_scale
         self.y_display_unit = self.get_display_unit()
         
 
@@ -386,7 +385,7 @@ class Line(GridChart):
             if series != 'placeholder':
                 #move path to initial data point
                 data_point_count = self.labels.index(series[0][0])
-                path_string = "M %s %s" % (self.x_padding + int(data_point_count * self.x_scale), self.grid_height - (series[0][1] * self.y_scale))
+                path_string = "M %s %s" % (self.x_padding + int(data_point_count * self.x_scale), self.grid_height - ((series[0][1] - self.min_y_axis_value) * self.y_scale))
 
                 for point in series:
                     if data_point_count == 0: 
@@ -396,7 +395,7 @@ class Line(GridChart):
                     data_point_count = self.labels.index(point[0]) 
                     path_string += " L "
                     x = self.x_padding + int(data_point_count * self.x_scale)
-                    point_height = self.y_scale * point[1]                
+                    point_height = self.y_scale * (point[1] - self.min_y_axis_value)
                     y = self.grid_height - point_height
                     path_string += "%s %s" % (x, y)
                     data_point_count += 1
@@ -481,7 +480,7 @@ class Column(GridChart):
                 x_position = (self.x_padding / 2) + (data_point_count * (self.x_group_scale + self.x_padding) ) + (series_count * point_width)
 
                 if isinstance(point[1], (int, long, float, complex)):
-                    point_height = self.y_scale * point[1]
+                    point_height = self.y_scale * (point[1] - self.min_y_axis_value)
                 else:
                     #value may be a string to display
                     point_height = self.max_y_axis_value * self.y_scale
