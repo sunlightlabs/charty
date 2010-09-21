@@ -158,18 +158,16 @@ class Pie(Chart):
 
                 x = math.cos(math.radians(total_angle)) * self.radius
                 y = math.sin(math.radians(total_angle)) * self.radius
-              
-                total_label_angle = total_angle - (angle / 2)
-
-                x_label = (math.cos(math.radians(total_label_angle)) * self.radius) + self.x_origin 
-                y_label = self.y_origin - int(math.sin(math.radians(total_label_angle)) * self.radius)
+            
+                total_label_angle = total_angle 
+                if angle > 3: 
+                    total_label_angle = total_angle - (angle / 2)
+                   
+                print "label angle %s" % angle
+                label_radius = self.radius + 5
+                x_label = (math.cos(math.radians(total_label_angle)) * label_radius) + self.x_origin # plus the origin x pos shifts label position to pie
+                y_label = self.y_origin - int(math.sin(math.radians(total_label_angle)) * label_radius)
                 
-                if x_label > (self.x_origin + 24): x_label += 7  #some rough adjustments to the label for edge cases
-                elif x_label < (self.x_origin - 24): x_label -= 7
-
-                if y_label > (self.y_origin + 12): y_label += 10  #check and see if it's within 12 pixels of the 180 line, avg font height
-                elif y_label < (self.y_origin - 12): y_label -= 10
-
                 point3 = "a%s,%s 0 %s,0 %s,%s z" % (self.radius, self.radius, arc, (x - last_point[0]), -(y - last_point[1]))
                               
                 self.add_label(x_label, y_label, point[0], percent) 
@@ -187,6 +185,7 @@ class Pie(Chart):
         else:
             label.attrib['class'] = 'pie-label-right'
         
+
         if isinstance(percent, float): pct_text = "%0.1f" % percent + "%" + " - "
         else: pct_text = "%g" % percent + "%" + " - "
         
@@ -201,6 +200,8 @@ class Pie(Chart):
                 elem.attrib['dy'] = "0"
             else:
                 elem.text = l
+            if y > self.y_origin: # on bottom half of chart, we need to align the text under the baseline, but baseline-shift is not supported anywhere! So we guess at the text height
+                elem.attrib['dy'] = "12"
             label.append(elem)
 
         self.svg.append(label)
