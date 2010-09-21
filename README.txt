@@ -2,10 +2,60 @@
 Charty
 ======
 
-Charty is a python library that generates SVG charts that use cascading stylesheets to alter their style and appearance. 
+Charty is a python library that generates SVG charts that use cascading stylesheets to alter their style and appearance. The file example.py included in the project includes some example usage for creating bar, line and pie charts. In general, you want to pass in height, width, data, css file name and other option parameters to the constructor and then call the output method to write the svg to a file. Every SVG node is classed explicitly and these can be styled as necessary. There are example css files in the css folder of the project, but below is an explicit description of the classes.
 
+CSS Class Names
+===============
+
+Axes
+----
+
+.x-axis-path - the path node for the x-axis
+.y-axis-path - the path node for the left y-axis
+.y-axis-path2 - the path node for the right y-axis
+.x-notch - notches that show up along the x-axis in between data points
+.x-notch-left - the left most notch that appears at the beginning of the x-axis
+.x-notch-right - the right most notch that appears at the end of the x-axis
+.x-axis-label - the text label node for x-axis labels
+.y-axis-label - the text label node for y-axis labels
+.y-gridline - path node class for each y-axis gridline
+
+Grid Charts Only (Line, Bar)
+----------------------------
+.value-as-label - for values that are strings instead of numerical values, this is the class of the text label node that will appear in the chart body
+.data-point-label - the text label node for labels appearing above each data point
+
+Line Chart Only
+---------------
+.series-#-line - For line charts, these represent the path node for that numbered data series. Data series' are automatically numbered (1-indexed), ex./ .series-2-line
+
+Pie Chart Only
+--------------
+.slice-# - the path node for a slice of a pie. These are automatically numbered (1-indexed)
+.pie-label-left - a pie slice label is given this class if it appears on the left side of the chart (allows for text-anchor styling)
+.pie-label-right - a pie slice label is given this class if it appears on the right side of the chart (allows for text-anchor styling)
 
 
 Keyword Argument Options
 ========================
 
+padding - the padding to add on all 4 sides of the chart
+x_padding - padding to add in x direction only (will be added to padding)
+y_padding - padding to add in y direction only (will be added to padding)
+currency - If True, will display $ in labels
+units - If True, will display numerical unit abbreviation (B: billions, M: millions, etc) in labels
+
+Grid Charts Only
+----------------
+gridline_percent - percentage of chart area to be in between each gridline
+x_label_height - height (in pixels) of x labels
+x_label_padding - padding (in pixels) on x-axis labels
+y_label_height - height (in pixels) of y labels
+y_label_padding - padding (in pixels) on y-axis labels
+label_intervals - interval at which to display x axis label. Every other label would be 2, every third would be 3, etc.
+
+
+
+Bar Chart Only
+--------------
+label_rotate - the degree to rotate x-axis labels
