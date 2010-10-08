@@ -12,5 +12,5 @@
 .pie-label-right {font-family: sans-serif; font-size: 12px; font-weight: bold; fill: #58595b; text-anchor:start;}
 .pie-label-left {font-family:sans-serif; font-size: 12px; font-weight: bold; fill: #58595b; text-anchor:end;}
 
-
+.pie-label-bottom { baseline-shift:100%;}
 

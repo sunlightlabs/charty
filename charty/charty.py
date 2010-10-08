@@ -202,8 +202,8 @@ class Pie(Chart):
                 elem.text = l
             if y > self.y_origin: # on bottom half of chart, we need to align the text under the baseline, but baseline-shift is not supported anywhere! So we guess at the text height
                 elem.attrib['dy'] = "12"
+            
             label.append(elem)
-
         self.svg.append(label)
     
 class GridChart(Chart):
