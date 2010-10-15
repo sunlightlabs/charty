@@ -1,2 +1,4 @@
 include *.txt
 recursive-include docs *.txt
+recursive-include charty/css *.css
+recursive-include charty/utils *.py

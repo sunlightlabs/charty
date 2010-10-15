@@ -1,3 +1,4 @@
+
 from distutils.core import setup
 
 setup(
@@ -6,9 +7,9 @@ setup(
     author='Kaitlin Lee',
     author_email='klee@sunlightfoundation.com',
     packages=['charty'],
-    url='http://pypi.python.org/pypi/Charty/',
+    url='http://github.com:sunlightlabs/Charty/',
     license='LICENSE.txt',
-    description='Another Python Chart Generator that uses CSS smartly',
-    long_description=open('README.txt').read(),
+    description='Another Python SVG Chart Generator that uses CSS smartly',
+    long_description=open('README').read(),
 )
 
