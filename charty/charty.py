@@ -2,7 +2,7 @@
 import xml.etree.ElementTree as ET
 from xml.dom.minidom import parseString
 import math
-from utils.nice import nice_ticks_seq
+from charty.utils import nice
 
 CURRENCY = [( 10**3, 'Th'), (10**6, 'M'), (10**9, 'B'), (10**12, 'Tr')]
 
@@ -32,6 +32,7 @@ class Chart(object):
         self.y_padding = 0
         self.currency = False
         self.units = ''
+        self.show_decimal = False
 
  
         #create svg node as root element in tree
@@ -113,6 +114,7 @@ class Pie(Chart):
     def __init__(self, height, width, data, stylesheet=None, **kwargs):
 
         super(Pie, self).__init__(height, width, data, stylesheet, **kwargs)
+
         #Catch passed in keyword argument overrides of defaults
         for key in kwargs:
             self.__dict__[key] = kwargs[key]
@@ -186,13 +188,14 @@ class Pie(Chart):
             label.attrib['class'] = 'pie-label-right'
         
 
-        if isinstance(percent, float): pct_text = "%0.1f" % percent + "%" + " - "
-        else: pct_text = "%g" % percent + "%" + " - "
+        if isinstance(percent, float) and self.show_decimal: pct_text = "%0.1f" % percent + "%" + " - "
+        else: pct_text = "%s" % int(round(percent)) + "%" + " - "
         
         lines = str(label_text).split("\n")
         height = (len(lines) - 1) * 15
         label.y = y + height
-
+        #when there's a line break, our extra padding below doesn't work right -- FIX
+        lines.reverse()
         for l in lines:
             elem = ET.Element("tspan", dy="15", x="%s" % x)
             if l == lines[0]:
@@ -201,8 +204,9 @@ class Pie(Chart):
             else:
                 elem.text = l
             if y > self.y_origin: # on bottom half of chart, we need to align the text under the baseline, but baseline-shift is not supported anywhere! So we guess at the text height
-                elem.attrib['dy'] = "12"
-            
+                elem.attrib['dy'] = "15"
+            else:
+                elem.attrib['dy'] = '-15'
             label.append(elem)
         self.svg.append(label)
     
@@ -242,7 +246,7 @@ class GridChart(Chart):
         if not hasattr(self, 'gridlines'):
             self.gridlines = 5
         
-        self.gridline_values = nice_ticks_seq(self.min_y_value, self.max_y_value, self.gridlines, False)
+        self.gridline_values = nice.nice_ticks_seq(self.min_y_value, self.max_y_value, self.gridlines, False)
         self.gridlines = len(self.gridline_values) - 1
         self.min_y_axis_value = min(self.gridline_values)
         self.max_y_axis_value = max(self.gridline_values)
