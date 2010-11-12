@@ -5,7 +5,6 @@ setup.py
 charty/__init__.py
 charty/charty.py
 charty/example.py
-charty/iec.py
 charty/css/barchart.css
 charty/css/linechart.css
 charty/css/piechart.css

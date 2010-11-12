@@ -2,7 +2,7 @@
 import xml.etree.ElementTree as ET
 from xml.dom.minidom import parseString
 import math
-from charts.utils.nice import nice_ticks_seq
+from utils import nice
 
 CURRENCY = [( 10**3, 'Th'), (10**6, 'M'), (10**9, 'B'), (10**12, 'Tr')]
 
@@ -246,7 +246,7 @@ class GridChart(Chart):
         if not hasattr(self, 'gridlines'):
             self.gridlines = 5
         
-        self.gridline_values = nice_ticks_seq(self.min_y_value, self.max_y_value, self.gridlines, False)
+        self.gridline_values = nice.nice_ticks_seq(self.min_y_value, self.max_y_value, self.gridlines, False)
         self.gridlines = len(self.gridline_values) - 1
         self.min_y_axis_value = min(self.gridline_values)
         self.max_y_axis_value = max(self.gridline_values)
