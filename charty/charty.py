@@ -2,7 +2,7 @@
 import xml.etree.ElementTree as ET
 from xml.dom.minidom import parseString
 import math
-from charty.utils import nice
+from charts.utils.nice import nice_ticks_seq
 
 CURRENCY = [( 10**3, 'Th'), (10**6, 'M'), (10**9, 'B'), (10**12, 'Tr')]
 
@@ -246,7 +246,7 @@ class GridChart(Chart):
         if not hasattr(self, 'gridlines'):
             self.gridlines = 5
         
-        self.gridline_values = nice.nice_ticks_seq(self.min_y_value, self.max_y_value, self.gridlines, False)
+        self.gridline_values = nice_ticks_seq(self.min_y_value, self.max_y_value, self.gridlines, False)
         self.gridlines = len(self.gridline_values) - 1
         self.min_y_axis_value = min(self.gridline_values)
         self.max_y_axis_value = max(self.gridline_values)
@@ -414,12 +414,21 @@ class Line(GridChart):
     def set_labels(self):
 
         label_count = 0
+        notch_interval = self.label_intervals
+        notch_start = 1
+        label_start = 0
+        if hasattr(self, "label_offset"):
+            if self.label_offset > 0:
+                notch_start = 0
+                label_start = self.label_offset
 
         for l in self.labels:
-            if  (self.label_intervals and label_count % self.label_intervals == 0) or not self.label_intervals:
+
+            x_position = self.x_padding + (label_count * self.x_scale)
+            y_position = self.grid_height + self.x_label_padding
+            
+            if  (self.label_intervals and (label_count >= label_start) and (label_count - label_start) % self.label_intervals == 0) or not self.label_intervals:
                 text_item = ET.Element("text")
-                x_position = self.x_padding + (label_count * self.x_scale)
-                y_position = self.grid_height + self.x_label_padding
                 text_item.attrib['x'] = "%s" % x_position
                 text_item.attrib['y'] = "%s" % y_position
                 text_item.text = "%s" % l
@@ -446,7 +455,7 @@ class Column(GridChart):
 
         super(Column, self).__init__(height, width, data, stylesheet, **kwargs)
 
-        self.max_x_point_width = 60  #How wide should a bar chart be if there's plenty of white space -->move to bar chart only
+        self.max_x_point_width = 30  #How wide should a bar chart be if there's plenty of white space -->move to bar chart only
 
         #find the width of each point in each series
         self.x_scale = self.set_scale()
@@ -490,7 +499,7 @@ class Column(GridChart):
                     #value may be a string to display
                     point_height = self.max_y_axis_value * self.y_scale
                     text = ET.Element("text", x="%s" % x_position, y="%s" % (self.grid_height - (point_height/2)))
-                    words = point[1].split(' ')
+                    words = point[1].split('\n')
                     num_words = 0
                     for w in words:
                         text_span = ET.Element("tspan", x="%s" % x_position, y="%s" % (self.grid_height - ((len(words) * 14) - (num_words * 14) ) ))  
@@ -552,3 +561,164 @@ class Column(GridChart):
                 self.add_label(l, label_count)
 
             label_count += 1
+
+
+class StackedColumn(GridChart):
+    """Subclass of GridChart class, specific to an n-series column chart """
+    
+    def __init__(self, height, width, data, stylesheet=None, *args, **kwargs):
+
+        super(StackedColumn, self).__init__(height, width, data, stylesheet, **kwargs)
+
+        self.max_x_point_width = 60  #How wide should a bar chart be if there's plenty of white space -->move to bar chart only
+
+        #find the width of each point in each series
+        self.x_group_scale = self.set_group_scale()
+        self.x_scale = self.set_scale()
+        #width of each data point grouping over multiple series
+        self.setup_chart()
+
+        #Chart subclass should have this method to chart the data series
+        self.data_series()
+        
+        self.set_labels()
+        
+        #insert the notch between data point groups
+        lcount = 0
+        for l in self.labels: 
+            if lcount == 0:
+                notch_x_pos = 0
+            else:
+                notch_x_pos = self.x_padding + (lcount * self.x_group_scale)
+            notch_y_pos = self.grid_height
+            notch = ET.Element("path", d="M %s %s L %s %s" % (notch_x_pos, notch_y_pos, notch_x_pos, notch_y_pos + 5))
+            if lcount == 0: notch.attrib['class'] = 'x-notch-left'
+            else: notch.attrib['class'] = 'x-notch'
+            self.grid.append(notch)
+            lcount += 1
+
+        end_notch = ET.Element("path", d="M %s %s L %s %s" % (self.grid_width, self.grid_height, self.grid_width, self.grid_height + 5))
+        end_notch.attrib['class'] = 'x-notch-right'
+        self.grid.append(end_notch)
+    
+        
+
+
+    def set_scale(self):
+        if self.x_group_scale > self.max_x_point_width: return self.max_x_point_width
+        else: return self.x_group_scale
+
+    def set_group_scale(self):
+        return (self.grid_width - (self.x_padding * 2)) / len(self.labels)
+    
+    def find_y_maximum(self):
+        total_per_label = {}
+
+        for series in self.data:
+            #because values are additive for each label, need to add them up to find the max and scale appropriately
+            for point in series:
+                if total_per_label.has_key(point[0]):
+                    total_per_label[point[0]] += int(point[1])
+                else:
+                    total_per_label[point[0]] = int(point[1])
+                
+        return max(total_per_label.values())
+    
+    def data_series(self):
+
+        series_count = 0
+        height_offset = {}
+        totals = {}
+         
+        for series in self.data:
+
+            point_count = 0 
+            for point in series:
+                point_width = self.x_scale
+                x_position = (self.x_padding / 2) + (point_count * (self.x_group_scale + self.x_padding)) + ((self.x_group_scale - self.x_scale) / 2)
+
+                if isinstance(point[1], (int, long, float, complex)):
+                    point_height = self.y_scale * (point[1] - self.min_y_axis_value)
+                    if totals.has_key(point[0]):
+                        totals[point[0]] += point[1]
+                    else:
+                        totals[point[0]] = point[1]
+                else:
+                    
+                    #value may be a string to display
+                    point_height = self.max_y_axis_value * self.y_scale
+                    text = ET.Element("text", x="%s" % x_position, y="%s" % (self.grid_height - (point_height/2)))
+                    words = point[1].split(' ')
+                    num_words = 0
+                    
+                    for w in words:
+                        text_span = ET.Element("tspan", x="%s" % x_position, y="%s" % (self.grid_height - ((len(words) * 14) - (num_words * 14) ) ))  
+                        text_span.text = w
+                        text.append(text_span)
+                        num_words += 1
+
+                    text.attrib['class'] = 'value-as-label'
+                    #self.grid.append(text)
+                    continue
+            
+                    
+#                y_position = (self.grid_height - point_height)
+                
+                if height_offset.has_key(point[0]):
+                    y_position = self.grid_height - ( height_offset[point[0]] + point_height )
+                    height_offset[point[0]] += point_height
+                else:
+                    y_position = self.grid_height - point_height
+                    height_offset[point[0]] = point_height
+
+                data_point = ET.Element("rect", x="%s" % x_position, y="%s" % y_position, height="%s" % point_height, width="%s" % point_width  )
+                data_point.attrib['class'] = 'series-%s-point' % series_count
+
+                self.grid.append(data_point)
+                if series == self.data[-1]:
+                    self.data_point_label(totals[point[0]], x_position + (point_width / 2), y_position - 5)
+
+                point_count += 1
+                    
+            series_count += 1
+
+
+    def add_label(self, label, label_count, word_count=0):
+            x_position = int((self.x_padding / 2) + (self.x_group_scale / 2) + (label_count * (self.x_group_scale + self.x_padding)))
+            y_position = self.grid_height + self.x_label_padding + (13 * word_count)
+            text_item = ET.Element("text", x="%s" % x_position, y="%s" % y_position)
+            text_item.text = "%s" % label
+            text_item.attrib['class'] = 'x-axis-label'
+            if self.label_rotate:
+                text_item.attrib['transform'] = "rotate(%s, %s, %s)" % (self.label_rotate, x_position, y_position)
+                if self.label_rotate < 1:
+                    text_item.attrib['style'] = "text-anchor: end;"
+                else:
+                    text_item.attrib['style'] = 'text-anchor: start;'
+            self.grid.append(text_item)
+
+
+    def set_labels(self):
+        label_count = 0
+        for l in self.labels:
+            if not self.numeric_labels:
+                if len(l.split('\n')):
+                    #multiline label
+                    word_count = 0
+                    for word in l.split('\n'):
+                        self.add_label(word, label_count, word_count)
+                        word_count += 1
+                else:
+                    self.add_label(l, label_count)
+            else:
+                self.add_label(l, label_count)
+
+            label_count += 1
+
+    def data_point_label(self, value, x, y):
+        dp_label = ET.Element("text", x="%s" % x, y="%s" % y)
+        text = str(value)
+        text = self.convert_units(value)
+        dp_label.text = "%s" % text
+        dp_label.attrib['class'] = 'data-point-label'
+        self.grid.append(dp_label)

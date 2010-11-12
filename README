@@ -44,6 +44,7 @@ Keyword Argument Options
 | y_padding - padding to add in y direction only (will be added to padding)
 | currency - If True, will display $ in labels
 | units - If True, will display numerical unit abbreviation (B: billions, M: millions, etc) in labels
+| use_zero_minimum - If True, will force the minimum y axis value  to 0
 
 Grid Charts Only
 ----------------
@@ -53,9 +54,13 @@ Grid Charts Only
 | y_label_height - height (in pixels) of y labels
 | y_label_padding - padding (in pixels) on y-axis labels
 | label_intervals - interval at which to display x axis label. Every other label would be 2, every third would be 3, etc.
-
+| label_offset - Data points by which to offset the start of x labels. 
 
 
 Bar Chart Only
 --------------
 | label_rotate - the degree to rotate x-axis labels
+
+Pie Chart Only
+--------------
+| show_decimal - will show decimal places for percentage in pie slices
